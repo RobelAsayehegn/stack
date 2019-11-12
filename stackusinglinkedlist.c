@@ -3,20 +3,19 @@
  
 struct node
 {
-    int info;
-    struct node *ptr;
+    int data;
+    struct node *next;
 }*top,*top1,*temp;
  
 int topelement();
 void push(int data);
 void pop();
-void empty();
 void display();
 void destroy();
 void stack_count();
 void create();
  
-int count = 0;
+int stackelement = 0;
  
 void main()
 {
@@ -24,20 +23,18 @@ void main()
     
     printf("\n###########################################################################");
     printf("\n Enter one(1) to push to the stack");
-    printf("\n 2 - Pop");
-    printf("\n 3 - Top");
-    printf("\n 4 - Empty");
-    printf("\n 5 - Exit");
-    printf("\n 6 - Dipslay");
-    printf("\n 7 - Stack Count");
-    printf("\n 8 - Destroy stack\n");
-    printf("############################################################################");
+    printf("\n Enter two(2) to Pop from the stack");
+    printf("\n Enter three(3) to know the top element of the stack");
+    printf("\n Enter four(4) to exit from the stack");
+    printf("\n Enter five(5) to display the stack");
+    printf("\n Enter six(6) to count the stack");
+    printf("\n Enter seven(7) to delete the stack\n");
+    printf("############################################################################\n");
  
     create();
  
     while (1)
     {
-        printf("\n Enter choice : ");
         scanf("%d", &ch);
  
         switch (ch)
@@ -62,18 +59,12 @@ void main()
             }
             break;
         case 4:
-            empty();
-            break;
-        case 5:
             exit(0);
-        case 6:
+        case 5:
             display();
             break;
-        case 7:
+        case 6:
             stack_count();
-            break;
-        case 8:
-            destroy();
             break;
         default :
             printf(" Wrong choice, Please enter correct choice  ");
@@ -82,56 +73,52 @@ void main()
     }
 }
  
-/* Create empty stack */
 void create()
 {
     top = NULL;
 }
  
-/* Count stack elements */
 void stack_count()
 {
-    printf("\n No. of elements in stack : %d", count);
+    printf("\n No. of elements in stack : %d", stackelement);
 }
  
-/* Push data into stack */
-void push(int data)
+void push(int data1)
 {
     if (top == NULL)
     {
         top =(struct node *)malloc(1*sizeof(struct node));
-        top->ptr = NULL;
-        top->info = data;
+        top->next = NULL;
+        top->data = data1;
     }
     else
     {
         temp =(struct node *)malloc(1*sizeof(struct node));
-        temp->ptr = top;
-        temp->info = data;
+        temp->next = top;
+        temp->data = data1;
         top = temp;
     }
-    count++;
+    stackelement++;
 }
  
-/* Display stack elements */
 void display()
 {
     top1 = top;
- 
+    
+    printf("Elements in the stack are: \n");
     if (top1 == NULL)
     {
-        printf("Stack is empty");
+        printf("stack is empty");
         return;
     }
  
     while (top1 != NULL)
     {
-        printf("%d ", top1->info);
-        top1 = top1->ptr;
+        printf("%d ", top1->data);
+        top1 = top1->next;
     }
- }
+}
  
-/* Pop Operation on stack */
 void pop()
 {
     top1 = top;
@@ -142,43 +129,32 @@ void pop()
         return;
     }
     else
-        top1 = top1->ptr;
-    printf("\n Popped value : %d", top->info);
+        top1 = top1->next;
+    printf("\n Popped value : %d", top->data);
     free(top);
     top = top1;
-    count--;
+    stackelement--;
 }
  
-/* Return top element */
 int topelement()
 {
-    return(top->info);
+    return(top->data);
 }
- 
-/* Check if stack is empty or not */
-void empty()
-{
-    if (top == NULL)
-        printf("\n Stack is empty");
-    else
-        printf("\n Stack is not empty with %d elements", count);
-}
- 
-/* Destroy entire stack */
+
 void destroy()
 {
     top1 = top;
  
     while (top1 != NULL)
     {
-        top1 = top->ptr;
+        top1 = top->next;
         free(top);
         top = top1;
-        top1 = top1->ptr;
+        top1 = top1->next;
     }
     free(top1);
     top = NULL;
  
     printf("\n All stack elements destroyed");
-    count = 0;
+    stackelement = 0;
 }
